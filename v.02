@@ -1,0 +1,53 @@
+import bs4
+import urllib3
+import requests
+from bs4 import BeautifulSoup
+
+domain = 'https://www.spotrac.com/'
+start_url = 'https://spotrac.com/nfl/'
+
+import urllib.request 
+req = urllib.request.Request(
+    domain, 
+    data=None, 
+    headers={
+        'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36',
+        #'authority':
+    }
+)
+
+''' source = urllib.request.urlopen(req)
+#print(source.read().decode('utf-8'))
+
+
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(source, 'html.parser')
+team_containers = soup.find_all('div', attrs={'class':'teamoption'})
+
+for link in soup.find_all('a', href=True):
+    print(link['href'])
+
+#import re
+#team_spending = soup.find_all(string ='Positional Spending')
+#print(team_spending) '''
+
+def extract_team_links(url=start_url):
+    #get soup
+    soup = get_soup(domain)
+    #find all the positional spending
+    p_tags = soup.findall('p')
+    #all a tags
+    a_tags = []
+    for p_tags in a_tags:
+        a_tags.extend(p_tags.findall('a'))
+# Filter the list
+    a_tags = [a_tag for a_tag in a_tags if 'title' in a_tag.attrs and 'href' in a_tag.attrs]
+    # get all titles
+    titles = [a_tag.get('title') for a_tag in a_tags]
+    # get all links
+    links = [a_tag.get('href') for a_tag in a_tags]
+    #get own title
+    self_title = soup.find('h1', {'class':'firstheading'}).text
+    return self_title, titles, links
+
+extract_team_links
