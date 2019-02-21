@@ -1,0 +1,39 @@
+import bs4
+import urllib3
+import requests
+from requests import get
+import re
+url = 'https://www.spotrac.com/nfl/'
+
+import urllib.request 
+req = urllib.request.Request(
+    url, 
+    data=None, 
+    headers={
+        'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36',
+        #'authority':
+    }
+)
+
+#source = urllib.request.urlopen(req)
+#print(source.read().decode('utf-8'))
+
+response = get(url)
+print(response.text[:500])
+
+from bs4 import BeautifulSoup
+
+html_soup = BeautifulSoup(response.text, 'html.parser')
+type(html_soup)
+bs4.BeautifulSoup
+
+
+odd_team_containers = html_soup.find_all('div', class_ = 'teamoptions col-md-6')
+print(type(odd_team_containers))
+print(len(odd_team_containers))
+
+
+
+first_team = odd_team_containers[0]
+print(first_team.find_all('a', href = re.compile('positional'))) 
+#print(first_team)
