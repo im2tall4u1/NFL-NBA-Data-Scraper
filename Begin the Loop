@@ -1,0 +1,53 @@
+import bs4
+import urllib3
+import requests
+from requests import get
+import re
+url = 'https://www.spotrac.com/nfl/'
+
+import urllib.request 
+req = urllib.request.Request(
+    url, 
+    data=None, 
+    headers={
+        'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36',
+        #'authority':
+    }
+)
+
+response = get(url)
+print(response.text[:500])
+
+from bs4 import BeautifulSoup
+
+html_soup = BeautifulSoup(response.text, 'html.parser')
+type(html_soup)
+bs4.BeautifulSoup
+
+
+odd_team_containers = html_soup.find_all('div', attrs={'class':'teamoptions col-md-6'})
+print(type(odd_team_containers))
+print(len(odd_team_containers))
+
+
+first_team = odd_team_containers
+team_links = first_team
+
+
+links=[]
+for result in odd_team_containers:
+    positional_spend = result.find_all('a', href = re.compile('positional'))
+    links.append(positional_spend[0])
+print(links)
+
+'''Iterate through team URL to add in all years
+		years = [2013,2014,2015,2016,2017,2018]
+
+		team_year_url = []
+
+		for i in text:
+			for year in years:
+				mod_url = i + str(year) 
+				team_year_url.append(mod_url)
+		for url in team_year_url:
+			yield Request(url=url, callback=self.parse_result_page)'''
